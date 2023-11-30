@@ -1,39 +1,98 @@
-body {
-    font-family: 'Arial', sans-serif;
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    font-family: 'Montserrat', Arial, sans-serif;
+    box-sizing: border-box;
 }
 
-header {
-    background-color: #333;
+body {
+    background: #0b0b0be3;
     color: #fff;
-    text-align: center;
-    padding: 1em 0;
+    font-size: 16px;
 }
 
-main {
+.weather-app-container {
+    width: 90%;
     max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-button, select {
-    margin-bottom: 10px;
-}
-
-#resultContainer {
-    /* Style the result container as needed */
-}
-
-footer {
-    text-align: center;
-    padding: 1em 0;
-    background-color: #333;
+    background: #9293937e;
     color: #fff;
+    margin: 50px auto 0;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Add more styles as needed */
+.search-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+input {
+    border: 0;
+    outline: 0;
+    background: #9293937e;
+    color: #fff;
+    padding: 10px;
+    height: 40px;
+    border-radius: 5px;
+    flex: 1;
+    margin-right: 16px;
+    font-size: 14px;
+}
+
+button {
+    border: 0;
+    outline: 0;
+    background: #6b6bf0;
+    color: #fff;
+    padding: 10px 20px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.weather-cards {
+    display: flex;
+    justify-content: space-around;
+}
+
+.weather-card {
+    flex: 1;
+    background: #6b6bf0;
+    color: #fff;
+    margin: 0 10px;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    margin-top: 10px;
+}
+
+.card-date {
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 100;
+}
+
+.weather-icon {
+    width: 80px;
+    margin-top: 10px;
+}
+
+.credits {
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    #card {
+        padding: 20px;
+    }
+}
