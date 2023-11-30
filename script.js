@@ -1,96 +1,113 @@
-// Global variable to store the selected location (if any)
-let selectedLocation = null;
+// Function to fetch data from the API
+function getGeoData() {
 
-// Function to get the current location using the Geolocation API
-function getCurrentLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                // Success: Update the selectedLocation variable and make API request
-                selectedLocation = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                };
-                makeApiRequest(selectedLocation);
-            },
-            error => {
-                // Error: Handle geolocation error
-                console.error('Geolocation error:', error.message);
-                updateResultContainer(null, 'Geolocation error. Please try again.');
-            }
-        );
-    } else {
-        // Geolocation not supported
-        updateResultContainer(null, 'Geolocation is not supported by your browser.');
-    }
-}
+    const searchElement = document.getElementById('searchBar').value;
 
-// Function to make an API request using the selectedLocation
-function makeApiRequest(location) {
-    // Replace 'YOUR_API_KEY' with your actual API key (if required by the API)
-    const apiKey = 'YOUR_API_KEY';
-    const apiUrl = `https://api.sunrise-sunset.org/json?lat=${location.latitude}&lng=${location.longitude}&date=today&formatted=0&apikey=${apiKey}`;
+        const url=`https://geocode.maps.co/search?q=${searchElement}`;
 
-    // Make the API request using AJAX or fetch
-    fetch(apiUrl)
-        .then(response => response.json())
+    return fetch(url)
+        .then(response => {
+         
+            return response.json();
+        })
         .then(data => {
-            // Success: Update the result container with the data
-            updateResultContainer(data, null);
+
+            if(data.length==0){
+                alert("Invalid city name");
+                document.getElementById('searchbar').value=""
+                return;
+            }
+
+            console.log(data);
+            const lat = data[0].lat;
+            const lon = data[0].lon;
+            
+            webdata(lat, lon);
+
+           
+
+           
+            return data.results;
         })
         .catch(error => {
-            // Error: Handle API request error
-            console.error('API request error:', error);
-            updateResultContainer(null, 'Error fetching data from the API. Please try again.');
+         
+            console.error('Error:', error); 
         });
 }
 
-// Function to update the result container with data or an error message
-function updateResultContainer(data, errorMessage) {
-    const resultContainer = document.getElementById('resultContainer');
+function webdata(lat, lon){
+    const todayurl = `https://api.sunrisesunset.io/json?lat=${lat}&lng=${lon}&date=today`;
+    const tomorrowurl = `https://api.sunrisesunset.io/json?lat=${lat}&lng=${lon}&date=tomorrow`;
 
-    // Clear previous content
-    resultContainer.innerHTML = '';
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+  
+    const today = new Date();
+    //date for today
+    const dayOfWeek = daysOfWeek[today.getDay()];
+    const month = months[today.getMonth()];
+    const day = today.getDate();
+    const year = today.getFullYear();
+  
+    const formattedDate = `${dayOfWeek}, ${month} ${day}, ${year}`;
+    console.log(formattedDate);
+    
+    // date for tomorrow
 
-    if (errorMessage) {
-        // Display error message
-        resultContainer.innerHTML = `<p>${errorMessage}</p>`;
-    } else {
-        // Update result container with data
-        updateResultContainerWithData(data);
-    }
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const dayOfWeek1 = daysOfWeek[tomorrow.getDay()];
+    const month1 = months[tomorrow.getMonth()];
+    const day1 = tomorrow.getDate();
+    const year1 = tomorrow.getFullYear();
+
+    const formattedDate1 = `${dayOfWeek1}, ${month1} ${day1}, ${year1}`;
+    console.log(formattedDate1);
+  
+    fetch(todayurl)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.results);
+        // Update your dashboard with the sunrise/sunset data
+        
+        document.querySelector('#todayDate').innerHTML = formattedDate;
+        document.querySelector('#todaySunriseTime').innerHTML = data.results.sunrise;
+        document.querySelector('#todayDawnTime').innerHTML = data.results.dawn;
+        document.querySelector('#todaySunsetTime').innerHTML = data.results.sunset;
+        document.querySelector('#todayDuskTime').innerHTML = data.results.dusk;
+        document.querySelector('#todaySolarNoon').innerHTML = data.results.solar_noon;
+        document.querySelector('#todayDayLength').innerHTML = data.results.day_length;
+        document.querySelector('#todayTimeZone').innerHTML = data.results.timezone;
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle errors and display a message to the user
+        alert('Error fetching sunrise/sunset data. Please try again.');
+    });
+
+    fetch(tomorrowurl)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.results);
+
+        document.querySelector('#tomorrowDate').innerHTML = formattedDate1;
+        document.querySelector('#tomorrowSunriseTime').innerHTML = data.results.sunrise;
+        document.querySelector('#tomorrowDawnTime').innerHTML = data.results.dawn;
+        document.querySelector('#tomorrowSunsetTime').innerHTML = data.results.sunset;
+        document.querySelector('#tomorrowDuskTime').innerHTML = data.results.dusk;
+        document.querySelector('#tomorrowSolarNoon').innerHTML = data.results.solar_noon;
+        document.querySelector('#tomorrowDayLength').innerHTML = data.results.day_length;
+        document.querySelector('#tomorrowTimeZone').innerHTML = data.results.timezone;
+
+    })  
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle errors and display a message to the user
+        alert('Error fetching sunrise/sunset data. Please try again.');
+    });
+
 }
-
-// Function to update the result container with data from the API response
-function updateResultContainerWithData(data) {
-    const resultContainer = document.getElementById('resultContainer');
-
-    // Implement this function based on the structure of the API response
-    // Refer to the previous example for displaying sunrise, sunset, etc.
-
-    // Call updateResultContainer with data (or handle data directly here)
-}
-
-// Event listener for the "Get Current Location" button
-document.querySelector('button').addEventListener('click', getCurrentLocation);
-
-// Event listener for the location select dropdown
-document.getElementById('locationSelect').addEventListener('change', function () {
-    // Update the selectedLocation variable with the chosen location
-    selectedLocation = getSelectedLocation();
-    // Make API request using the selected location
-    makeApiRequest(selectedLocation);
-});
-
-// Function to get the selected location from the dropdown
-function getSelectedLocation() {
-    const selectElement = document.getElementById('locationSelect');
-    const selectedOption = selectElement.options[selectElement.selectedIndex];
-    return {
-        latitude: selectedOption.dataset.latitude,
-        longitude: selectedOption.dataset.longitude
-    };
-}
-
-// Additional event listeners and functions for handling user input can be added here
-// Remember to handle errors and update the UI accordingly
