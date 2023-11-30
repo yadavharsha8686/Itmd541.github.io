@@ -1,34 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunset and Sunrise</title>
     <link rel="stylesheet" href="styles.css">
-    <title>Sunrise Sunset Dashboard</title>
-</head>
-<body>
-    <header>
-        <h1>Sunrise Sunset Dashboard</h1>
-    </header>
-    <main>
-        <div id="locationInput">
-            <!-- If you're a 541 student, add a text input for location search here -->
-        </div>
-        <button onclick="getCurrentLocation()">Get Current Location</button>
-        <select id="locationSelect">
-            <!-- Add options for specific named locations -->
-            <option value="city1">City 1</option>
-            <option value="city2">City 2</option>
-            <!-- Add more options as needed -->
-        </select>
-
-        <div id="resultContainer">
-            <!-- Display sunrise and sunset data here -->
-        </div>
-    </main>
-    <footer>
-        <p>Powered by <a href="https://sunrisesunset.io/api/" target="_blank">Sunrise Sunset API</a></p>
-    </footer>
     <script src="script.js"></script>
+ 
+</head>
+
+<body>
+    <div class="weather-app-container">
+        <div class="search-section">
+            <input type="text" placeholder="Search City" id="searchBar" spellcheck="false">
+            <button onclick="getGeoData()">Search</button>
+        </div>
+        <div class="weather-cards">
+            <div class="weather-card today-card">
+                <h2>Today</h2>
+                <div class="card-date" id="todayDate"></div>
+                <div class="sunrise-section">
+                    <h3>Sunrise</h3>
+                    <img src="Sunrise.svg" class="weather-icon">
+                    <h3><span id="todaySunriseTime"></span></h3>
+                    <div class="dawn-time">Dawn: <span id="todayDawnTime"></span></div>
+                </div>
+                <div class="sunset-section">
+                    <h3>Sunset</h3>
+                    <img src="Sunset.svg" class="weather-icon">
+                    <h3><span id="todaySunsetTime"></span></h3>
+                    <div class="dusk-time">Dusk: <span id="todayDuskTime"></span></div>
+                </div>
+                <div class="solar-noon">
+                    <h3>Solar Noon: <span id="todaySolarNoon"></span></h3>
+                </div>
+                <div class="day-length">
+                    <h3>Day Length: <span id="todayDayLength"></span></h3>
+                </div>
+                <div class="time-zone">
+                    <h3>Time Zone: <span id="todayTimeZone"></span></h3>
+                </div>
+            </div>
+
+            <!-- Tomorrow card -->
+            <div class="weather-card tomorrow-card">
+                <h2>Tomorrow</h2>
+                <div class="card-date" id="tomorrowDate"></div>
+                <div class="sunrise-section">
+                    <h3>Sunrise</h3>
+                    <img src="Sunrise.svg" class="weather-icon">
+                    <h3><span id="tomorrowSunriseTime"></span></h3>
+                    <div class="dawn-time">Dawn: <span id="tomorrowDawnTime"></span></div>
+                </div>
+                <div class="sunset-section">
+                    <h3>Sunset</h3>
+                    <img src="Sunset.svg" class="weather-icon">
+                    <h3><span id="tomorrowSunsetTime"></span></h3>
+                    <div class="dusk-time">Dusk: <span id="tomorrowDuskTime"></span></div>
+                </div>
+                <div class="solar-noon">
+                    <h3>Solar Noon: <span id="tomorrowSolarNoon"></span></h3>
+                </div>
+                <div class="day-length">
+                    <h3>Day Length: <span id="tomorrowDayLength"></span></h3>
+                </div>
+                <div class="time-zone">
+                    <h3>Time Zone: <span id="tomorrowTimeZone"></span></h3>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
